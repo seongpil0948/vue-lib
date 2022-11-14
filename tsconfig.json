@@ -14,7 +14,9 @@
     "noEmit": true,
     "paths": {
       "@/*": ["./src/*"]
-    }
+    },
+    "outDir": "dist" /* Specify an output folder for all emitted files. */,
+    "declaration": true /* Generate .d.ts files from TypeScript and JavaScript files in your project. */
   },
   "include": ["src/**/*.ts", "src/**/*.d.ts", "src/**/*.tsx", "src/**/*.vue"],
   "exclude": ["node_modules"],

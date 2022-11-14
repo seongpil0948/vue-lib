@@ -16,6 +16,7 @@ export default defineConfig({
     dts({
       skipDiagnostics: true,
       entryRoot: resolve(__dirname, "src/lib/"),
+      libFolderPath: resolve(__dirname, "src/lib/"),
     }),
     stripDevFiles(),
   ],
