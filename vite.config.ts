@@ -6,10 +6,19 @@ import fs from "fs";
 import dts from "vite-plugin-dts";
 
 const ioPackage = fs.readFileSync("./package.json", "utf-8");
+
 // https://vitejs.dev/config/
 // https://vitejs-kr.github.io/guide/build.html#multi-page-app
 export default defineConfig({
-  plugins: [vue(), vueJsx(), dts({ skipDiagnostics: true }), stripDevFiles()],
+  plugins: [
+    vue(),
+    vueJsx(),
+    dts({
+      skipDiagnostics: true,
+      entryRoot: resolve(__dirname, "src/lib/"),
+    }),
+    stripDevFiles(),
+  ],
   root: __dirname,
   resolve: {
     // In production site build, we want to import naive-ui from node_modules
