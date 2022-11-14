@@ -1,4 +1,3 @@
-import "./login-view.sass";
 import { defineComponent, ref } from "vue";
 import {
   NSpace,
@@ -98,7 +97,7 @@ export const LoginView = defineComponent({
         vertical
         align="center"
         justify="center"
-        style={{ width: "70vw" }}
+        style={{ width: "70vw", "text-align": "center" }}
         itemStyle={{ width: "100%" }}
       >
         {{
@@ -147,11 +146,12 @@ export const LoginView = defineComponent({
                           class="email-btn login-btn"
                           onClick={onEmailSubmit}
                           color="rgba(255, 255, 47, 0.7)"
+                          style={loginBtnStyle}
                           size="large"
                         >
                           {{
                             icon: () => (
-                              <NIcon size="32" component={EmailOutlined} />
+                              <NIcon size="35" component={EmailOutlined} />
                             ),
                           }}
                         </NButton>
@@ -165,6 +165,7 @@ export const LoginView = defineComponent({
                         <NButton
                           circle
                           class="login-btn google-login-btn"
+                          style={loginBtnStyle}
                           onClick={async () =>
                             this.$emit("onLogin", await googleLogin())
                           }
@@ -173,7 +174,7 @@ export const LoginView = defineComponent({
                         >
                           {{
                             icon: () => (
-                              <NIcon size="32" component={GoogleOutlined} />
+                              <NIcon size="35" component={GoogleOutlined} />
                             ),
                           }}
                         </NButton>
@@ -187,6 +188,7 @@ export const LoginView = defineComponent({
                         <NAvatar
                           round
                           class="login-btn kakao-login-btn"
+                          style={kakaoBtnStyle}
                           onClick={async () =>
                             this.$emit("onLogin", await onKakaoLogin("login"))
                           }
@@ -203,6 +205,7 @@ export const LoginView = defineComponent({
                         <NAvatar
                           round
                           class="login-btn kakao-login-btn kakao-login-btn-other"
+                          style={kakaoBtnStyle}
                           onClick={async () =>
                             this.$emit(
                               "onLogin",
@@ -246,3 +249,12 @@ interface ModelType {
   email: string | null;
   password: string | null;
 }
+
+const kakaoBtnStyle = {
+  "background-color": "rgba(255, 255, 47, 0.7)",
+  padding: "0.7rem",
+  cursor: "pointer",
+};
+const loginBtnStyle = {
+  padding: "2rem",
+};

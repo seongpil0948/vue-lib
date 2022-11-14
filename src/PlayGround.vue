@@ -74,6 +74,12 @@ async function onLogin(data: LoginReturn | undefined) {
   </NSpace>
 </template>
 
-<style lang="scss">
-@import "./assets/variables.scss";
+<style>
+.page-container {
+  justify-content: center !important;
+  align-items: center;
+  height: 100vh;
+  width: 100%;
+  background-color: #ffc800;
+}
 </style>
