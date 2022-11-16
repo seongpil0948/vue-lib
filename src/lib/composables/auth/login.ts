@@ -93,7 +93,6 @@ export function useLogin() {
         email,
         password
       );
-      console.log("signInWithEmailAndPassword: ", credential);
       const user = credential.user;
       return login(credential, {
         providerId: "EMAIL",
@@ -106,7 +105,6 @@ export function useLogin() {
     } catch (e: any) {
       if (typeof e.code === "string") {
         const params: SignupParam = {
-          userId: email,
           providerId: "EMAIL",
           email,
           password,
@@ -120,7 +118,7 @@ export function useLogin() {
           };
         } else if (e.code.includes("auth/wrong-password")) {
           return {
-            toSignup: true,
+            toSignup: false,
             noConfirm: false,
             wrongPassword: true,
             params,

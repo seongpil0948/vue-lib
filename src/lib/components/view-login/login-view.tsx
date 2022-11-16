@@ -132,6 +132,16 @@ export const LoginView = defineComponent({
                       type="password"
                     ></NInput>
                   </NFormItem>,
+                  <NButton
+                    class="text-login-btn"
+                    onClick={onEmailSubmit}
+                    style={{ width: "25%", height: "4vw", margin: "1%" }}
+                    size="large"
+                  >
+                    {{
+                      default: () => "로그인",
+                    }}
+                  </NButton>,
                 ],
               }}
             </NForm>,
