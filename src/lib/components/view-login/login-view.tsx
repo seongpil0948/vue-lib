@@ -97,7 +97,7 @@ export const LoginView = defineComponent({
         vertical
         align="center"
         justify="center"
-        style={{ width: "70vw", "text-align": "center" }}
+        style={{ width: "90vw", "text-align": "center" }}
         itemStyle={{ width: "100%" }}
       >
         {{
@@ -135,7 +135,14 @@ export const LoginView = defineComponent({
                   <NButton
                     class="text-login-btn"
                     onClick={onEmailSubmit}
-                    style={{ width: "25%", height: "4vw", margin: "1%" }}
+                    style={{
+                      height: "4vw",
+                      margin: "1%",
+                      "max-height": "3vw",
+                      width: "10vw",
+                      "min-height": "32px",
+                      "min-width": "100px",
+                    }}
                     size="large"
                   >
                     {{
