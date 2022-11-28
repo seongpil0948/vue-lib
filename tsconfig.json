@@ -12,8 +12,10 @@
     "lib": ["ESNext", "DOM"],
     "skipLibCheck": true,
     "noEmit": true,
+    "baseUrl": ".",
     "paths": {
-      "@/*": ["./src/*"]
+      "@/*": ["./src/*"],
+      "@io-boxies/js-lib": ["node_modules/@io-boxies/js-lib/dist/src"]
     },
     "outDir": "dist" /* Specify an output folder for all emitted files. */,
     "declaration": true /* Generate .d.ts files from TypeScript and JavaScript files in your project. */
