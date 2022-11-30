@@ -21,7 +21,11 @@ import axios from "../../plugin/axios";
 import { useKakao } from "../kakao";
 
 export function useLogin() {
-  const auth = getAuth();
+  const auth = getAuth(
+    IoFireApp.getInst(
+      import.meta.env.MODE === "production" ? "io-prod" : "io-dev"
+    ).app
+  );
   const { getKakao } = useKakao();
   auth.languageCode = "ko";
   auth.useDeviceLanguage();

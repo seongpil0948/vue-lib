@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { createUserWithEmailAndPassword, getAuth } from "@firebase/auth";
+import { IoFireApp } from "@io-boxies/js-lib";
 import { NSpace, NH2, useMessage } from "naive-ui";
 import { LoginView, LoginReturn } from "./lib";
 
@@ -15,7 +16,11 @@ async function onLogin(data: LoginReturn | undefined) {
       if (!data.params.email) return msg.error("email is null");
       else if (!data.params.password) return msg.error("password is null");
 
-      const auth = getAuth();
+      const auth = getAuth(
+        IoFireApp.getInst(
+          import.meta.env.MODE === "production" ? "io-prod" : "io-dev"
+        ).app
+      );
       try {
         const credential = await createUserWithEmailAndPassword(
           auth,
