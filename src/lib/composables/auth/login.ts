@@ -7,11 +7,11 @@ import {
   UserCredential,
 } from "@firebase/auth";
 import { intervalToDuration } from "date-fns";
-import { logEvent } from "@firebase/analytics";
+import { logEvent, getAnalytics } from "@firebase/analytics";
 import {
-  analytics,
   FcmToken,
   getFcmToken,
+  IoFireApp,
   IoUser,
   KAKAO_CHANNEL_ID,
   USER_DB,
@@ -137,7 +137,9 @@ export function useLogin() {
       // This gives you a Google Access Token. You can use it to access the Google API.
       const credential = GoogleAuthProvider.credentialFromResult(result);
       console.log("google credential: ", credential);
-      logEvent(analytics, "login", { method: USER_PROVIDER.GOOGLE });
+      logEvent(getAnalytics(IoFireApp.getInst().app), "login", {
+        method: USER_PROVIDER.GOOGLE,
+      });
       const user = result.user;
 
       if (loginAfter) {
@@ -166,7 +168,9 @@ export function useLogin() {
               const customRes = await axios.get(`/auth/customToken/${res.id}`); // kakao id
               signInWithCustomToken(auth, customRes.data.token)
                 .then(async (uc) => {
-                  logEvent(analytics, "login", { method: USER_PROVIDER.KAKAO });
+                  logEvent(getAnalytics(IoFireApp.getInst().app), "login", {
+                    method: USER_PROVIDER.KAKAO,
+                  });
 
                   kakao.API.request({
                     url: "/v1/api/talk/channels",

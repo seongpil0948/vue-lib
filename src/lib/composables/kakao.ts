@@ -1,5 +1,4 @@
 import { onMounted } from "vue";
-import { ioFire } from "@io-boxies/js-lib";
 
 export function useKakao() {
   onMounted(async () => {
