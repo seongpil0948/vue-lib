@@ -20,12 +20,8 @@ import {
 import axios from "../../plugin/axios";
 import { useKakao } from "../kakao";
 
-export function useLogin() {
-  const auth = getAuth(
-    IoFireApp.getInst(
-      import.meta.env.MODE === "production" ? "io-prod" : "io-dev"
-    ).app
-  );
+export function useLogin(fireApp: IoFireApp) {
+  const auth = getAuth(fireApp.app);
   const { getKakao } = useKakao();
   auth.languageCode = "ko";
   auth.useDeviceLanguage();
@@ -141,7 +137,7 @@ export function useLogin() {
       // This gives you a Google Access Token. You can use it to access the Google API.
       const credential = GoogleAuthProvider.credentialFromResult(result);
       console.log("google credential: ", credential);
-      logEvent(getAnalytics(IoFireApp.getInst().app), "login", {
+      logEvent(getAnalytics(fireApp.app), "login", {
         method: USER_PROVIDER.GOOGLE,
       });
       const user = result.user;
@@ -172,7 +168,7 @@ export function useLogin() {
               const customRes = await axios.get(`/auth/customToken/${res.id}`); // kakao id
               signInWithCustomToken(auth, customRes.data.token)
                 .then(async (uc) => {
-                  logEvent(getAnalytics(IoFireApp.getInst().app), "login", {
+                  logEvent(getAnalytics(fireApp.app), "login", {
                     method: USER_PROVIDER.KAKAO,
                   });
 

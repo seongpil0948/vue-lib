@@ -21,12 +21,15 @@ import {
 import { emailRule, pwRule } from "../../util";
 import { EmailOutlined } from "@vicons/material";
 import { GoogleOutlined } from "@vicons/antd";
+import { IoFireApp } from "@io-boxies/js-lib";
+
 export const LoginView = defineComponent({
   name: "LoginView",
   props: {
     kakaoImgOtherPath: String,
     kakaoImgPath: String,
     logoImgPath: String,
+    fireApp: Object,
     logoStyle: {
       type: Object,
       default: () => {},
@@ -38,7 +41,10 @@ export const LoginView = defineComponent({
     },
   },
   setup(props, { emit }) {
-    const { onKakaoLogin, googleLogin, emailLogin } = useLogin();
+    console.log("props.env:", props.fireApp);
+    const { onKakaoLogin, googleLogin, emailLogin } = useLogin(
+      props.fireApp as IoFireApp
+    );
     const formRef = ref<FormInst | null>(null);
     const modelRef = ref<ModelType>({
       email: null,
