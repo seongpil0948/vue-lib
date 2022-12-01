@@ -19,8 +19,11 @@ import {
 } from "@io-boxies/js-lib";
 import axios from "../../plugin/axios";
 import { useKakao } from "../kakao";
+import { onBeforeMount } from "vue";
 
 export function useLogin(fireApp: IoFireApp) {
+  onBeforeMount(() => IoFireApp.getInst(fireApp.env));
+
   const auth = getAuth(fireApp.app);
   const { getKakao } = useKakao();
   auth.languageCode = "ko";

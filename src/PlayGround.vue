@@ -66,11 +66,15 @@ async function onLogin(data: LoginReturn | undefined) {
     return msg.error("핸들링 되지 못한 에러");
   }
 }
+const app = IoFireApp.getInst(
+  import.meta.env.MODE === "production" ? "io-prod" : "io-dev"
+);
 </script>
 
 <template>
   <NSpace vertical class="page-container">
     <LoginView
+      :fire-app="app"
       kakao-img-other-path="/dev-imgs/icon-kakao-talk-black.png"
       kakao-img-path="/dev-imgs/icon-kakao-talk.png"
       logo-img-path="/dev-imgs/vite.svg"
