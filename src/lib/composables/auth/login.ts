@@ -39,6 +39,7 @@ export function useLogin(fireApp: IoFireApp) {
   ): Promise<LoginReturn> {
     /// toSignup (3th argument) is deprecated
     const user = await USER_DB.getUserById(credential.user.uid);
+    console.info("getUserById:", user);
     if (user) {
       // >>> token >>>
       const token = await getFcmToken();
@@ -106,12 +107,12 @@ export function useLogin(fireApp: IoFireApp) {
         password,
       });
     } catch (e: any) {
+      const params: SignupParam = {
+        providerId: "EMAIL",
+        email,
+        password,
+      };
       if (typeof e.code === "string") {
-        const params: SignupParam = {
-          providerId: "EMAIL",
-          email,
-          password,
-        };
         if (e.code.includes("user-not-found")) {
           return {
             toSignup: true,
@@ -128,7 +129,13 @@ export function useLogin(fireApp: IoFireApp) {
           };
         }
       } else {
-        throw e;
+        return {
+          toSignup: false,
+          noConfirm: false,
+          wrongPassword: true,
+          params,
+          err: e,
+        };
       }
     }
   }
@@ -236,4 +243,5 @@ export interface LoginReturn {
   params: SignupParam;
   wrongPassword: boolean;
   credential?: UserCredential;
+  err?: any;
 }

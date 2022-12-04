@@ -27,7 +27,6 @@ async function onLogin(data: LoginReturn | undefined) {
           data.params.email,
           data.params.password
         );
-        console.log("credential: ", credential);
         return msg.success(
           `${credential.user.uid}, ${credential.user.email} 회원가입이 되었습니다.`
         );
