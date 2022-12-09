@@ -107,6 +107,7 @@ export function useLogin(fireApp: IoFireApp) {
         password,
       });
     } catch (e: any) {
+      console.error("in login", e);
       const params: SignupParam = {
         providerId: "EMAIL",
         email,
