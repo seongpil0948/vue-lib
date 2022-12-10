@@ -107,7 +107,7 @@ export function useLogin(fireApp: IoFireApp) {
         password,
       });
     } catch (e: any) {
-      console.error("in login", JSON.stringify(e));
+      console.log("in login", JSON.stringify(e));
       const params: SignupParam = {
         providerId: "EMAIL",
         email,
@@ -120,6 +120,7 @@ export function useLogin(fireApp: IoFireApp) {
             noConfirm: false,
             wrongPassword: false,
             params,
+            err: e,
           };
         } else if (e.code.includes("auth/wrong-password")) {
           return {
@@ -127,6 +128,7 @@ export function useLogin(fireApp: IoFireApp) {
             noConfirm: false,
             wrongPassword: true,
             params,
+            err: e,
           };
         }
       } else {
@@ -138,6 +140,13 @@ export function useLogin(fireApp: IoFireApp) {
           err: e,
         };
       }
+      return {
+        toSignup: false,
+        noConfirm: false,
+        wrongPassword: false,
+        params,
+        err: e,
+      };
     }
   }
 

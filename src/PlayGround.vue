@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { createUserWithEmailAndPassword, getAuth } from "@firebase/auth";
+import { createUserWithEmailAndPassword, getAuth } from "firebase/auth";
 import { IoFireApp } from "@io-boxies/js-lib";
 import { NSpace, NH2, useMessage } from "naive-ui";
 import { LoginView, LoginReturn } from "./lib";
@@ -22,14 +22,14 @@ async function onLogin(data: LoginReturn | undefined) {
         ).app
       );
       try {
-        const credential = await createUserWithEmailAndPassword(
-          auth,
-          data.params.email,
-          data.params.password
-        );
-        return msg.success(
-          `${credential.user.uid}, ${credential.user.email} 회원가입이 되었습니다.`
-        );
+        // const credential = await createUserWithEmailAndPassword(
+        //   auth,
+        //   data.params.email,
+        //   data.params.password
+        // );
+        // return msg.success(
+        //   `${credential.user.uid}, ${credential.user.email} 회원가입이 되었습니다.`
+        // );
       } catch (e: any) {
         if (typeof e.code === "string") {
           if (e.code.includes("email-already-in-use")) {

@@ -58,10 +58,27 @@ export const LoginView = defineComponent({
       formRef.value?.validate(async (errors) => {
         if (errors || !modelRef.value.email || !modelRef.value.password)
           throw new Error("올바르게 작성 해주세요");
-        emit(
-          "onLogin",
-          await emailLogin(modelRef.value.email, modelRef.value.password)
-        );
+        const defaultResult: LoginReturn = {
+          toSignup: false,
+          noConfirm: false,
+          wrongPassword: false,
+          params: {
+            providerId: "EMAIL",
+            email: modelRef.value.email,
+            password: modelRef.value.password,
+          },
+        };
+        try {
+          const result = await emailLogin(
+            modelRef.value.email,
+            modelRef.value.password
+          );
+          if (result) emit("onLogin", result);
+          else emit("onLogin", defaultResult);
+        } catch (e) {
+          defaultResult.err = e;
+          emit("onLogin", defaultResult);
+        }
       });
     }
     useEventListener(
