@@ -1,26 +1,26 @@
 <script setup lang="ts">
-import { createUserWithEmailAndPassword, getAuth } from "firebase/auth";
-import { IoFireApp } from "@io-boxies/js-lib";
-import { NSpace, NH2, useMessage } from "naive-ui";
+// import { createUserWithEmailAndPassword, getAuth } from "firebase/auth";
+import { type IO_ENV } from "@io-boxies/js-lib";
+import { NSpace, useMessage } from "naive-ui";
 import { LoginView, LoginReturn } from "./lib";
 
 const msg = useMessage();
 
 async function onLogin(data: LoginReturn | undefined) {
+  console.log("data: ", data);
   if (!data) return msg.error("no data");
   else if (data.wrongPassword) return msg.error("비밀번호가 틀렸습니다..");
   else if (data.toSignup) {
-    console.log("data: ", data);
     msg.info(` 회원가입 시도`);
     if (data.params.providerId === "EMAIL") {
       if (!data.params.email) return msg.error("email is null");
       else if (!data.params.password) return msg.error("password is null");
 
-      const auth = getAuth(
-        IoFireApp.getInst(
-          import.meta.env.MODE === "production" ? "io-prod" : "io-dev"
-        ).app
-      );
+      // const auth = getAuth(
+      //   IoFireApp.getInst(
+      //     import.meta.env.MODE === "production" ? "io-prod" : "io-dev"
+      //   ).app
+      // );
       try {
         // const credential = await createUserWithEmailAndPassword(
         //   auth,
@@ -65,15 +65,14 @@ async function onLogin(data: LoginReturn | undefined) {
     return msg.error("핸들링 되지 못한 에러");
   }
 }
-const app = IoFireApp.getInst(
-  import.meta.env.MODE === "production" ? "io-prod" : "io-dev"
-);
+const env: IO_ENV =
+  import.meta.env.MODE === "production" ? "io-prod" : "io-dev";
 </script>
 
 <template>
   <NSpace vertical class="page-container">
     <LoginView
-      :fire-app="app"
+      :env="env"
       kakao-img-other-path="/dev-imgs/icon-kakao-talk-black.png"
       kakao-img-path="/dev-imgs/icon-kakao-talk.png"
       logo-img-path="/dev-imgs/vite.svg"

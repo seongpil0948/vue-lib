@@ -1,4 +1,4 @@
-import { defineComponent, ref } from "vue";
+import { defineComponent, ref, PropType } from "vue";
 import {
   NSpace,
   NImage,
@@ -21,7 +21,7 @@ import {
 import { emailRule, pwRule } from "../../util";
 import { EmailOutlined } from "@vicons/material";
 import { GoogleOutlined } from "@vicons/antd";
-import { IoFireApp } from "@io-boxies/js-lib";
+import { type IO_ENV } from "@io-boxies/js-lib";
 
 export const LoginView = defineComponent({
   name: "LoginView",
@@ -38,8 +38,8 @@ export const LoginView = defineComponent({
       type: String,
       required: true,
     },
-    fireApp: {
-      type: Object,
+    env: {
+      type: String as PropType<IO_ENV>,
       required: true,
     },
     logoStyle: {
@@ -53,10 +53,8 @@ export const LoginView = defineComponent({
     },
   },
   setup(props, { emit }) {
-    console.log("props.env:", props.fireApp);
-    const { onKakaoLogin, googleLogin, emailLogin } = useLogin(
-      props.fireApp as IoFireApp
-    );
+    console.log("props env in vue-lib:", props.env);
+    const { onKakaoLogin, googleLogin, emailLogin } = useLogin(props.env);
     const formRef = ref<FormInst | null>(null);
     const modelRef = ref<ModelType>({
       email: null,
@@ -67,7 +65,6 @@ export const LoginView = defineComponent({
       password: pwRule,
     };
     async function onEmailSubmit() {
-      console.log("onEmailSubmit", modelRef.value);
       formRef.value?.validate(async (errors) => {
         if (errors || !modelRef.value.email || !modelRef.value.password)
           throw new Error("올바르게 작성 해주세요");

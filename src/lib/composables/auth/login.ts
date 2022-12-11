@@ -16,15 +16,17 @@ import {
   KAKAO_CHANNEL_ID,
   USER_DB,
   USER_PROVIDER,
+  type IO_ENV,
 } from "@io-boxies/js-lib";
 import axios from "../../plugin/axios";
 import { useKakao } from "../kakao";
 import { onBeforeMount } from "vue";
 
-export function useLogin(fireApp: IoFireApp) {
-  onBeforeMount(() => IoFireApp.getInst(fireApp.env));
+export function useLogin(env: IO_ENV) {
+  const ioFire = IoFireApp.getInst(env);
+  onBeforeMount(() => IoFireApp.getInst(env));
 
-  const auth = getAuth(fireApp.app);
+  const auth = getAuth(ioFire.app);
   const { getKakao } = useKakao();
   auth.languageCode = "ko";
   auth.useDeviceLanguage();
@@ -72,15 +74,12 @@ export function useLogin(fireApp: IoFireApp) {
         params,
       };
       if (user.userInfo.passed) {
-        console.log("6");
         return data;
       } else {
-        console.log("7");
         data.noConfirm = true;
         return data;
       }
     } else {
-      console.log("8");
       return {
         toSignup: true,
         noConfirm: false,
@@ -94,14 +93,12 @@ export function useLogin(fireApp: IoFireApp) {
     email: string,
     password: string
   ): Promise<LoginReturn | undefined> {
-    console.log("in emailLogin~~!");
     try {
       const credential = await signInWithEmailAndPassword(
         auth,
         email,
         password
       );
-      console.log("11");
       const user = credential.user;
       return login(credential, {
         providerId: "EMAIL",
@@ -119,9 +116,7 @@ export function useLogin(fireApp: IoFireApp) {
         password,
       };
       if (typeof e.code === "string") {
-        console.log("1", e);
         if (e.code.includes("user-not-found")) {
-          console.log("2");
           return {
             toSignup: true,
             noConfirm: false,
@@ -130,7 +125,6 @@ export function useLogin(fireApp: IoFireApp) {
             err: e,
           };
         } else if (e.code.includes("auth/wrong-password")) {
-          console.log("3");
           return {
             toSignup: false,
             noConfirm: false,
@@ -140,7 +134,6 @@ export function useLogin(fireApp: IoFireApp) {
           };
         }
       } else {
-        console.log("4");
         return {
           toSignup: false,
           noConfirm: false,
@@ -149,7 +142,6 @@ export function useLogin(fireApp: IoFireApp) {
           err: e,
         };
       }
-      console.log("5");
       return {
         toSignup: false,
         noConfirm: false,
@@ -167,7 +159,7 @@ export function useLogin(fireApp: IoFireApp) {
       // This gives you a Google Access Token. You can use it to access the Google API.
       const credential = GoogleAuthProvider.credentialFromResult(result);
       console.log("google credential: ", credential);
-      logEvent(getAnalytics(fireApp.app), "login", {
+      logEvent(getAnalytics(ioFire.app), "login", {
         method: USER_PROVIDER.GOOGLE,
       });
       const user = result.user;
@@ -198,7 +190,7 @@ export function useLogin(fireApp: IoFireApp) {
               const customRes = await axios.get(`/auth/customToken/${res.id}`); // kakao id
               signInWithCustomToken(auth, customRes.data.token)
                 .then(async (uc) => {
-                  logEvent(getAnalytics(fireApp.app), "login", {
+                  logEvent(getAnalytics(ioFire.app), "login", {
                     method: USER_PROVIDER.KAKAO,
                   });
 
