@@ -25,7 +25,7 @@ import { onBeforeMount } from "vue";
 export function useLogin(env: IO_ENV) {
   const ioFire = IoFireApp.getInst(env);
   onBeforeMount(() => IoFireApp.getInst(env));
-
+  console.log("ioFire:", ioFire);
   const auth = getAuth(ioFire.app);
   const { getKakao } = useKakao();
   auth.languageCode = "ko";
