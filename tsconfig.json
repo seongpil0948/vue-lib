@@ -9,18 +9,31 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "esModuleInterop": true,
-    "lib": ["ESNext", "DOM"],
+    "lib": [
+      "ESNext",
+      "DOM"
+    ],
     "skipLibCheck": true,
     "noEmit": true,
     "baseUrl": ".",
     "paths": {
-      "@/*": ["./src/*"],
-      "@io-boxies/js-lib": ["node_modules/@io-boxies/js-lib/dist/src"]
+      "@/*": [
+        "./src/*"
+      ],
+      "@io-boxies/js-lib": [
+        "node_modules/@io-boxies/js-lib/dist/src"
+      ]
     },
     "outDir": "dist" /* Specify an output folder for all emitted files. */,
     "declaration": true /* Generate .d.ts files from TypeScript and JavaScript files in your project. */
   },
-  "include": ["src/**/*.ts", "src/**/*.d.ts", "src/**/*.tsx", "src/**/*.vue"],
-  "exclude": ["node_modules"],
-  "references": [{ "path": "./tsconfig.node.json" }]
+  "include": [
+    "src/**/*.ts",
+    "src/**/*.d.ts",
+    "src/**/*.tsx",
+    "src/**/*.vue"
+  ],
+  "exclude": [
+    "node_modules"
+  ],
 }

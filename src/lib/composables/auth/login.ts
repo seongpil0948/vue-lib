@@ -72,12 +72,15 @@ export function useLogin(fireApp: IoFireApp) {
         params,
       };
       if (user.userInfo.passed) {
+        console.log("6");
         return data;
       } else {
+        console.log("7");
         data.noConfirm = true;
         return data;
       }
     } else {
+      console.log("8");
       return {
         toSignup: true,
         noConfirm: false,
@@ -91,12 +94,14 @@ export function useLogin(fireApp: IoFireApp) {
     email: string,
     password: string
   ): Promise<LoginReturn | undefined> {
+    console.log("in emailLogin~~!");
     try {
       const credential = await signInWithEmailAndPassword(
         auth,
         email,
         password
       );
+      console.log("11");
       const user = credential.user;
       return login(credential, {
         providerId: "EMAIL",
@@ -114,7 +119,9 @@ export function useLogin(fireApp: IoFireApp) {
         password,
       };
       if (typeof e.code === "string") {
+        console.log("1", e);
         if (e.code.includes("user-not-found")) {
+          console.log("2");
           return {
             toSignup: true,
             noConfirm: false,
@@ -123,6 +130,7 @@ export function useLogin(fireApp: IoFireApp) {
             err: e,
           };
         } else if (e.code.includes("auth/wrong-password")) {
+          console.log("3");
           return {
             toSignup: false,
             noConfirm: false,
@@ -132,6 +140,7 @@ export function useLogin(fireApp: IoFireApp) {
           };
         }
       } else {
+        console.log("4");
         return {
           toSignup: false,
           noConfirm: false,
@@ -140,6 +149,7 @@ export function useLogin(fireApp: IoFireApp) {
           err: e,
         };
       }
+      console.log("5");
       return {
         toSignup: false,
         noConfirm: false,

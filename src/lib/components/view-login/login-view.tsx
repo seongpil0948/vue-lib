@@ -26,10 +26,22 @@ import { IoFireApp } from "@io-boxies/js-lib";
 export const LoginView = defineComponent({
   name: "LoginView",
   props: {
-    kakaoImgOtherPath: String,
-    kakaoImgPath: String,
-    logoImgPath: String,
-    fireApp: Object,
+    kakaoImgOtherPath: {
+      type: String,
+      required: true,
+    },
+    kakaoImgPath: {
+      type: String,
+      required: true,
+    },
+    logoImgPath: {
+      type: String,
+      required: true,
+    },
+    fireApp: {
+      type: Object,
+      required: true,
+    },
     logoStyle: {
       type: Object,
       default: () => {},
@@ -55,6 +67,7 @@ export const LoginView = defineComponent({
       password: pwRule,
     };
     async function onEmailSubmit() {
+      console.log("onEmailSubmit", modelRef.value);
       formRef.value?.validate(async (errors) => {
         if (errors || !modelRef.value.email || !modelRef.value.password)
           throw new Error("올바르게 작성 해주세요");

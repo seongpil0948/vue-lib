@@ -4,6 +4,7 @@ import vueJsx from "@vitejs/plugin-vue-jsx";
 import { resolve } from "path";
 import fs from "fs";
 import dts from "vite-plugin-dts";
+import eslintPlugin from "vite-plugin-eslint";
 
 const ioPackage = fs.readFileSync("./package.json", "utf-8");
 
@@ -19,6 +20,7 @@ export default defineConfig({
       libFolderPath: resolve(__dirname, "src/lib/"),
     }),
     stripDevFiles(),
+    eslintPlugin(),
   ],
   root: __dirname,
   resolve: {
@@ -34,21 +36,6 @@ export default defineConfig({
         : undefined,
   },
   // https://vitejs.dev/config/dep-optimization-options.html#optimizedeps-entries
-  // FIXME: not working( not affect to bundle size)
-  optimizeDeps: {
-    include:
-      process.env.NODE_ENV !== "production"
-        ? []
-        : [
-            "date-fns/esm",
-            "@io-boxies/js-lib",
-            "axios",
-            "vue",
-            "naive-ui",
-            // "@vicons/antd",
-            // "@vicons/material",
-          ],
-  },
   define: {
     "process.env.NODE_ENV": `'${process.env.NODE_ENV}'`,
     __DEV__: process.env.NODE_ENV !== "production",
@@ -66,7 +53,8 @@ export default defineConfig({
     rollupOptions: {
       // make sure to externalize deps that shouldn't be bundled
       // into your library (sync peerDependencies)
-      external: ["vue", , "axios"],
+      // eslint-disable-next-line no-sparse-arrays
+      external: ["vue", , "axios"] as string[],
       output: {
         // Provide global variables to use in the UMD build
         // for externalized deps

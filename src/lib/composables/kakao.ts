@@ -1,11 +1,12 @@
 import { onMounted } from "vue";
 
 export function useKakao() {
+  let kakao: any = null;
   onMounted(async () => {
     if (!kakaoInitialized()) {
       await initializeScript();
     }
-    const kakao = await getKakao();
+    kakao = await getKakao();
   });
 
   async function getKakao() {
@@ -17,7 +18,7 @@ export function useKakao() {
     }
   }
 
-  function initializeScript(): Promise<void> {
+  async function initializeScript() {
     return new Promise((resolve) => {
       const script = document.createElement("script");
       script.src = "https://t1.kakaocdn.net/kakao_js_sdk/v1/kakao.min.js";
@@ -27,7 +28,7 @@ export function useKakao() {
           window.Kakao.init("96b525bca68b5ec991f5e96c39db8111");
         }
 
-        resolve();
+        resolve(null);
       };
 
       script.onerror = (error) => {
@@ -55,5 +56,6 @@ export function useKakao() {
     getKakao,
     initializeScript,
     kakaoInitialized,
+    kakao,
   };
 }
