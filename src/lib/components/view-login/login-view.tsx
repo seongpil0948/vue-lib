@@ -53,7 +53,7 @@ export const LoginView = defineComponent({
     },
   },
   setup(props, { emit }) {
-    console.log("props env in vue-lib:", props.env);
+    console.log("login view props env in vue-lib:", props.env);
 
     const { onKakaoLogin, googleLogin, emailLogin } = useLogin(
       props.env as IO_ENV

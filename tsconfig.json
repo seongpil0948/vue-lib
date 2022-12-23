@@ -25,7 +25,7 @@
       ]
     },
     "outDir": "dist" /* Specify an output folder for all emitted files. */,
-    "declaration": true /* Generate .d.ts files from TypeScript and JavaScript files in your project. */
+    "declaration": false /* Generate .d.ts files from TypeScript and JavaScript files in your project. */
   },
   "include": [
     "src/**/*.ts",
