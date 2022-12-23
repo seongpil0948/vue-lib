@@ -51,6 +51,9 @@ export const LoginView = defineComponent({
     onLogin(data: LoginReturn | undefined) {
       return data !== undefined && data !== null;
     },
+    onInternalError(data: any) {
+      return data;
+    },
   },
   setup(props, { emit }) {
     console.log("login view props env in vue-lib:", props.env);
@@ -219,9 +222,13 @@ export const LoginView = defineComponent({
                           circle
                           class="login-btn google-login-btn"
                           style={loginBtnStyle}
-                          onClick={async () =>
-                            this.$emit("onLogin", await googleLogin())
-                          }
+                          onClick={async () => {
+                            try {
+                              this.$emit("onLogin", await googleLogin());
+                            } catch (e) {
+                              this.$emit("onInternalError", e);
+                            }
+                          }}
                           color="rgba(255, 255, 47, 0.7)"
                           size="large"
                         >
@@ -242,9 +249,16 @@ export const LoginView = defineComponent({
                           round
                           class="login-btn kakao-login-btn"
                           style={kakaoBtnStyle}
-                          onClick={async () =>
-                            this.$emit("onLogin", await onKakaoLogin("login"))
-                          }
+                          onClick={async () => {
+                            try {
+                              this.$emit(
+                                "onLogin",
+                                await onKakaoLogin("login")
+                              );
+                            } catch (e) {
+                              this.$emit("onInternalError", e);
+                            }
+                          }}
                           size="large"
                           src={kakaoImgPath}
                         />
@@ -259,12 +273,16 @@ export const LoginView = defineComponent({
                           round
                           class="login-btn kakao-login-btn kakao-login-btn-other"
                           style={kakaoBtnStyle}
-                          onClick={async () =>
-                            this.$emit(
-                              "onLogin",
-                              await onKakaoLogin("loginForm")
-                            )
-                          }
+                          onClick={async () => {
+                            try {
+                              this.$emit(
+                                "onLogin",
+                                await onKakaoLogin("loginForm")
+                              );
+                            } catch (e) {
+                              this.$emit("onInternalError", e);
+                            }
+                          }}
                           size="large"
                           src={kakaoImgOtherPath}
                         />
