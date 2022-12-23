@@ -16,7 +16,7 @@ function onSelect(result: IoUser) {
 <template>
   <NSpace vertical class="page-container">
     <SearchUserAuto
-      :search-size="20"
+      :search-size="5"
       :env="(env as string)"
       @on-result="onResult"
       @on-select="onSelect"

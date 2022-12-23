@@ -100,7 +100,7 @@ export const SearchUserAuto = defineComponent({
               : ".ent-search-engine-documents-io-box-user-dev-search",
           query,
           from: 0,
-          size: 10,
+          size: props.searchSize,
         };
       },
     });
