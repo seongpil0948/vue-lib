@@ -2,7 +2,7 @@ import { IoUser, IO_ENV, USER_ROLE, USER_DB } from "@io-boxies/js-lib";
 import { defineComponent } from "vue";
 import { useElasticSearch } from "../../composables";
 import throttle from "lodash.throttle";
-import { NAutoComplete, AutoCompleteOption } from "naive-ui";
+import { NAutoComplete, AutoCompleteOption, NSpace, NSelect } from "naive-ui";
 import { ref } from "vue";
 
 export interface UserSearchResult {
@@ -28,6 +28,10 @@ export const SearchUserAuto = defineComponent({
       type: String,
       default: () => "유저선택",
     },
+    showRoleSelector: {
+      type: Boolean,
+      default: () => false,
+    },
   },
   emits: {
     onResult(data: UserSearchResult[]) {
@@ -43,6 +47,13 @@ export const SearchUserAuto = defineComponent({
     const makeOption = (name: string, userId: string): AutoCompleteOption => ({
       label: name,
       value: userId,
+    });
+    const role = ref<USER_ROLE | null>(null);
+    const roleOpt = Object.keys(USER_ROLE).map((x) => {
+      return {
+        label: x,
+        value: x,
+      };
     });
     const { searchInputVal, searchData, search, msg } = useElasticSearch({
       env: props.env as IO_ENV,
@@ -64,13 +75,8 @@ export const SearchUserAuto = defineComponent({
         }
       },
       makeParam: (input) => {
-        const query = {
+        const query: any = {
           bool: {
-            must: [
-              {
-                match: { role: "VENDOR" },
-              },
-            ],
             should: [
               {
                 multi_match: {
@@ -92,6 +98,13 @@ export const SearchUserAuto = defineComponent({
             ],
           },
         };
+        if (role.value) {
+          query.bool.must = [
+            {
+              match: { role: role.value },
+            },
+          ];
+        }
 
         return {
           index:
@@ -106,9 +119,13 @@ export const SearchUserAuto = defineComponent({
     });
     const searching = throttle(async () => {
       await search();
-    }, 500);
+    }, 1000);
     const onUpdate = async (val: string | undefined) => {
       searchInputVal.value = val ?? null;
+      await searching();
+    };
+    const onUpdateRole = async (r: USER_ROLE) => {
+      role.value = r;
       await searching();
     };
     async function onSelect(value: string | number) {
@@ -122,10 +139,14 @@ export const SearchUserAuto = defineComponent({
       onUpdate,
       onSelect,
       options,
+      role,
+      roleOpt,
+      onUpdateRole,
     };
   },
   render() {
-    return (
+    const { showRoleSelector, onUpdateRole } = this;
+    const renderAuto = () => (
       <NAutoComplete
         value={this.searchInputVal ?? undefined}
         onUpdateValue={this.onUpdate}
@@ -134,6 +155,27 @@ export const SearchUserAuto = defineComponent({
         options={this.options}
         onSelect={this.onSelect}
       ></NAutoComplete>
+    );
+    return showRoleSelector ? (
+      <NSpace>
+        {{
+          default: () => [
+            <NSelect
+              value={this.role}
+              onUpdateValue={onUpdateRole}
+              options={this.roleOpt}
+              placeholder={"유저역할선택"}
+              style={{
+                minWidth: "120px",
+              }}
+              clearable={true}
+            ></NSelect>,
+            renderAuto(),
+          ],
+        }}
+      </NSpace>
+    ) : (
+      renderAuto()
     );
   },
 });

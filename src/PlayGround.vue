@@ -34,6 +34,7 @@ function onInternalError(err: any) {
   <NSpace vertical class="page-container">
     <SearchUserAuto
       :search-size="5"
+      :show-role-selector="true"
       :env="(env as string)"
       @on-result="onResult"
       @on-select="onSelect"
