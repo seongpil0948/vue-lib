@@ -100,8 +100,8 @@ function stripDevFiles() {
     renderStart(outputOptions, inputOptions) {
       const outDir = outputOptions.dir;
       const cssDir = resolve(outDir, "dev-imgs");
-      fs.rmdir(cssDir, { recursive: true }, () =>
-        console.log(`Deleted ${cssDir}`)
+      fs.rm(cssDir, { recursive: true }, () =>
+        console.log(`Deleted new ${cssDir}`)
       );
     },
   };
