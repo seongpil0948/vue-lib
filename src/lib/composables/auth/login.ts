@@ -18,11 +18,11 @@ import {
   USER_PROVIDER,
   type IO_ENV,
 } from "@io-boxies/js-lib";
-import axios from "../../plugin/axios";
 import { useKakao } from "../kakao";
 import { onBeforeMount } from "vue";
+import axios from "axios";
 
-export function useLogin(env: IO_ENV) {
+export function useLogin(env: IO_ENV, customTokenUrl: string) {
   const ioFire = IoFireApp.getInst(env);
   onBeforeMount(() => IoFireApp.getInst(env));
   console.log("ioFire:", ioFire);
@@ -187,7 +187,9 @@ export function useLogin(env: IO_ENV) {
           kakao.API.request({
             url: "/v2/user/me",
             success: async function (res: any) {
-              const customRes = await axios.get(`/auth/customToken/${res.id}`); // kakao id
+              const customRes = await axios
+                // .get(`/auth/customToken/${res.id}`); // kakao id;
+                .get(`${customTokenUrl}/${res.id}`); // kakao id;
               signInWithCustomToken(auth, customRes.data.token)
                 .then(async (uc) => {
                   logEvent(getAnalytics(ioFire.app), "login", {

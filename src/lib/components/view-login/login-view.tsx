@@ -1,4 +1,4 @@
-import { defineComponent, ref } from "vue";
+import { defineComponent, PropType, ref } from "vue";
 import {
   NSpace,
   NImage,
@@ -46,6 +46,10 @@ export const LoginView = defineComponent({
       type: Object,
       default: () => {},
     },
+    customTokenUrl: {
+      type: String,
+      required: true,
+    },
   },
   emits: {
     onLogin(data: LoginReturn | undefined) {
@@ -59,7 +63,8 @@ export const LoginView = defineComponent({
     console.log("login view props env in vue-lib:", props.env);
 
     const { onKakaoLogin, googleLogin, emailLogin } = useLogin(
-      props.env as IO_ENV
+      props.env as IO_ENV,
+      props.customTokenUrl
     );
     const formRef = ref<FormInst | null>(null);
     const modelRef = ref<ModelType>({

@@ -3,11 +3,15 @@ import vue from "@vitejs/plugin-vue";
 import vueJsx from "@vitejs/plugin-vue-jsx";
 import { resolve } from "path";
 import fs from "fs";
+import { readFile } from "fs/promises";
 import dts from "vite-plugin-dts";
 import eslintPlugin from "vite-plugin-eslint";
 
 const ioPackage = fs.readFileSync("./package.json", "utf-8");
-
+const { dependencies } = JSON.parse(
+  (await readFile(new URL("./package.json", import.meta.url))).toString()
+);
+const entries = Object.keys(dependencies);
 // https://vitejs.dev/config/
 // https://vitejs-kr.github.io/guide/build.html#multi-page-app
 export default defineConfig({
@@ -40,6 +44,9 @@ export default defineConfig({
     "process.env.NODE_ENV": `'${process.env.NODE_ENV}'`,
     __DEV__: process.env.NODE_ENV !== "production",
     __VUE_LIB_VERSION__: JSON.stringify(JSON.parse(ioPackage).version),
+  },
+  optimizeDeps: {
+    entries,
   },
   build: {
     lib: {
