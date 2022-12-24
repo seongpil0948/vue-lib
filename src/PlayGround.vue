@@ -1,6 +1,6 @@
 <script setup lang="ts">
 // import { createUserWithEmailAndPassword, getAuth } from "firebase/auth";
-import { getUserName, IoUser, type IO_ENV } from "@io-boxies/js-lib";
+import { IoUser, type IO_ENV } from "@io-boxies/js-lib";
 import { NSpace } from "naive-ui";
 import {
   LoginReturn,

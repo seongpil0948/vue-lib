@@ -1,4 +1,4 @@
-import { defineComponent, PropType, ref } from "vue";
+import { defineComponent, ref } from "vue";
 import {
   NSpace,
   NImage,
